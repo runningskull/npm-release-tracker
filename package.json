@@ -13,6 +13,10 @@
   "author": "Juan Patten (jr@juanpatten.com)",
   "license": "BSD",
 
+  "engines": {
+    "node": "0.8.x"
+  },
+
   "dependencies": {
     "connect": "2.7.3",
     "npm": "1.2.12",
