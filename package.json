@@ -1,0 +1,22 @@
+{
+  "name": "npm-release-tracker",
+  "version": "0.0.1",
+  "description": "Tracks npm module releases",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/runningskull/npm-release-tracker.git"
+  },
+  "author": "Juan Patten (jr@juanpatten.com)",
+  "license": "BSD",
+
+  "dependencies": {
+    "connect": "2.7.3",
+    "npm": "1.2.12",
+    "semver": "1.1.3",
+    "async": "0.2.5"
+  }
+}
