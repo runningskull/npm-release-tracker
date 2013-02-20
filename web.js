@@ -53,7 +53,7 @@ function GOGO_GADGET_SERVER() {
     .use(connect.logger('dev'))
     .use(connect.query())
     .use(req_handler)
-    .listen(5000)
+    .listen(process.env.PORT || 5000)
 
   console.log('\n~ Listening on port 5000 ~\n')
 }
