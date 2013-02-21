@@ -3,8 +3,6 @@
 var fs = require('fs')
   , npm = require('npm')
 
-  , luaStyle = (process.argv.length > 3)
-
 
 function ERR(msg) {
   console.log(msg)
@@ -20,7 +18,7 @@ var ARG = process.argv[2]
 
 function _listDeps(info) {
   var lst = Object.keys(info.dependencies || {})
-  return luaStyle ? '{"'+lst.join('","')+'"}' : lst.join(',')
+  return lst.join(',')
 }
 
 function _readFile() {
