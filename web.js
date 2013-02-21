@@ -30,7 +30,7 @@ function req_handler(req, res) {
 
   function _iterator(memo, pkgName, cb) {
     npm.commands.info([pkgName], function(err, info) {
-      if (err) return cb(err);
+      if (err) return cb();
       cb(null, (memo[pkgName] = _newVersionInfo(info), memo))
     })
   }
