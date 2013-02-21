@@ -4,37 +4,37 @@ var connect = require('connect')
   , npm = require('npm')
   , url = require('url')
 
-
-function _newVersionInfo(info) {
-  info = info[Object.keys(info)[0]]
-  var latest = info.versions[info.versions.length - 1]
-    , previous = info.versions[info.versions.length - 2]
-    , latestTime = new Date(info.time[latest])
-    , yesterday = new Date(Date.now() - (25 * 60 * 60 * 1000))  // hour buffer
-
-    , url = info.repository.url
-        .replace(/^git:/, 'https:')
-        .replace(/\.git$/, '')
-
-  url += '/compare/%…$'
-    .replace('%', previous)
-    .replace('$', latest)
-
-  //return latestTime > yesterday ? [previous, latest] : undefined
-  console.log(url)
-  return latestTime > yesterday ? [latest, url] : undefined
-}
-
-
-function _iterator(memo, pkgName, cb) {
-  npm.commands.info([pkgName], function(err, info) {
-    if (err) return cb(err);
-    cb(null, (memo[pkgName] = _newVersionInfo(info), memo))
-  })
-}
-
+  , H25 = 25 * 60 * 60 * 1000   // 25 hours
 
 function req_handler(req, res) {
+  function _newVersionInfo(info) {
+    info = info[Object.keys(info)[0]]
+    var latest = info.versions[info.versions.length - 1]
+      , previous = info.versions[info.versions.length - 2]
+      , latestTime = new Date(info.time[latest])
+      , lastCheck = new Date(parseInt(req.query.last_check,10)
+                             || Date.now() - H25)
+
+      , url = info.repository.url
+          .replace(/^git:/, 'https:')
+          .replace(/\.git$/, '')
+
+    url += '/compare/%…$'
+      .replace('%', previous)
+      .replace('$', latest)
+
+    console.log(lastCheck)
+    return latestTime > lastCheck ? [latest, url] : undefined
+  }
+
+
+  function _iterator(memo, pkgName, cb) {
+    npm.commands.info([pkgName], function(err, info) {
+      if (err) return cb(err);
+      cb(null, (memo[pkgName] = _newVersionInfo(info), memo))
+    })
+  }
+
   if (! ('packages' in req.query))
     return res.statusCode=400, res.end('no packages listed');
 
