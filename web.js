@@ -15,9 +15,11 @@ function req_handler(req, res) {
       , lastCheck = new Date(parseInt(req.query.last_check,10)
                              || Date.now() - H25)
 
-      , url = info.repository.url
-          .replace(/^git:/, 'https:')
-          .replace(/\.git$/, '')
+      , url = ''
+      
+    ;(info.repository||{}).url && (url = info.repository.url
+        .replace(/^git:/, 'https:')
+        .replace(/\.git$/, ''));
 
     url += '/compare/%…$'
       .replace('%', previous)
